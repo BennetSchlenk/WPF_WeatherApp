@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_WeatherApp.View"
         xmlns:vm="clr-namespace:WPF_WeatherApp.ViewModel"
+        xmlns:converters="clr-namespace:WPF_WeatherApp.ViewModel.ValueConverters"
         mc:Ignorable="d"
-        Title="WeatherWindow" Height="650" Width="400">
+        Title="WeatherWindow" Height="650" Width="450"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <vm:WeatherVM x:Key="vm"/>
+        <converters:IconPathConverter x:Key="pathConverter"/>
     </Window.Resources>
     
     <Grid DataContext="{StaticResource vm}">
@@ -17,39 +20,52 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="#4392f1">
+        <Grid Grid.Row="0" Background="#7cb27d">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <Label Content="Search City:" 
-                       Margin="10,0,10,0" 
+                       Margin="15,0,10,0" 
                        Foreground="White"
                        FontSize="15"/>
-                <TextBox MinHeight="25" Margin="10,0,10,10" Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox MinHeight="25" Margin="15,0,10,10" VerticalContentAlignment="Center" Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <Button Grid.Column="1"
                     Command="{Binding SearchCommand}"
                     CommandParameter="{Binding Query}"
                     Content="S"
                     Background="White"
-                    Margin="10,10,10,10"
+                    Margin="10,10,15,10"
                     Width="25"
                     Height="25"
                     VerticalAlignment="Bottom"/>
         </Grid>
-        <ListView Grid.Row="1" Background="#93C572" ItemsSource="{Binding Cities}" SelectedValue="{Binding SelectedCity}">
+        <ListView Grid.Row="1" Background="LightGray" BorderThickness="0" ItemsSource="{Binding Cities}" SelectedValue="{Binding SelectedCity}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <TextBlock Text="{Binding Name}"/>
+                    <Grid Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="3"/>
+                        <Label Content="{Binding Name}" FontSize="15" Grid.Column="0" VerticalAlignment="Center"/>
+                        <Label Content="{Binding Region}" Grid.Column="1" VerticalAlignment="Center"/>
+                        <Label Content="{Binding Country}" Grid.Column="2" VerticalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <Grid Grid.Row="2" Background="#4392f1" DataContext="{Binding CurrentConditions}">
+        <Grid Grid.Row="2" Background="#7cb27d" DataContext="{Binding CurrentConditions}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -58,21 +74,27 @@
                 <TextBlock DataContext="{StaticResource vm}"
                            Text="{Binding SelectedCity.Name}"
                            Foreground="White"
-                           FontSize="20"
-                           Margin="10,10,0,5"/>
+                           FontSize="25"
+                           Margin="15,5,0,0"/>
+                <TextBlock DataContext="{StaticResource vm}"
+                           Text="{Binding SelectedCity.Country}"
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="15,0,0,5"/>
                 <TextBlock Text="{Binding Current.Condition.Text}"
                            Foreground="White"
                            FontSize="20"
-                           Margin="10,0,0,10"/>
+                           Margin="15,5,0,10"/>
             </StackPanel>
-            <TextBlock Text="{Binding Current.Temp_c, StringFormat={}{0}°C}"
-                       Grid.Column="1"
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="{Binding Current.Temp_c, StringFormat={}{0}°C}"
                        Foreground="White"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       FontSize="20"
-                       Margin="10,0,10,0"/>
+                       FontSize="25"
+                       Margin="10,5,15,0"/>
+                <Image Width="64" Height="64" Source="{Binding Current.Condition.Icon, Converter={StaticResource pathConverter}}"/>
+            </StackPanel>
         </Grid>
-
     </Grid>
 </Window>
