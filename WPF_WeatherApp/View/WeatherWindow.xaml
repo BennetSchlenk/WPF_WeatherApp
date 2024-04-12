@@ -32,15 +32,17 @@
                        FontSize="15"/>
                 <TextBox MinHeight="25" Margin="15,0,10,10" VerticalContentAlignment="Center" Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
+            <Border BorderThickness="0"/>
             <Button Grid.Column="1"
                     Command="{Binding SearchCommand}"
                     CommandParameter="{Binding Query}"
-                    Content="S"
                     Background="White"
                     Margin="10,10,15,10"
                     Width="25"
                     Height="25"
-                    VerticalAlignment="Bottom"/>
+                    VerticalAlignment="Bottom">
+                <Image Source="../Assets/search.png"/>
+            </Button>
         </Grid>
         <ListView Grid.Row="1" Background="LightGray" BorderThickness="0" ItemsSource="{Binding Cities}" SelectedValue="{Binding SelectedCity}">
             <ListView.ItemContainerStyle>

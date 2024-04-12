@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\search.png" />
     <None Remove="Assets\weather\64x64\day\113.png" />
     <None Remove="Assets\weather\64x64\day\116.png" />
     <None Remove="Assets\weather\64x64\day\119.png" />
@@ -122,6 +123,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\search.png" />
     <Resource Include="Assets\weather\64x64\day\113.png" />
     <Resource Include="Assets\weather\64x64\day\116.png" />
     <Resource Include="Assets\weather\64x64\day\119.png" />
