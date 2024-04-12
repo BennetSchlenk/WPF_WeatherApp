@@ -70,8 +70,4 @@ namespace WPF_WeatherApp.Model
         public int Us_epa_index { get; set; }
         public int Gb_defra_index { get; set; }
     }
-
-
-
-
 }
